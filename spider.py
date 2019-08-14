@@ -14,7 +14,6 @@ from datetime import datetime
 from csdn_spider.models import *
 
 domain = 'https://bbs.csdn.net'
-queue = Queue()
 list_queue = Queue()
 topic_queue = Queue(10)
 author_queue = Queue(10)
@@ -67,6 +66,8 @@ def get_all_url():
 class ParseTopicThread(Thread):
 	def run(self):
 		while 1:
+			if self.topic_queue.empty():
+				break
 			answer_url = topic_queue.get()
 			print('开始爬取topic:{}'.format(answer_url))
 			topic_id = answer_url.split('/')[-1]
@@ -124,6 +125,8 @@ class ParseTopicThread(Thread):
 class ParseAuthorThread(Thread):
 	def run(self):
 		while 1:
+			if self.author_queue.empty():
+				break
 			author_url = author_queue.get()
 			print('开始爬取用户信息：{}'.format(author_url))
 			author = Author()
@@ -160,6 +163,8 @@ class ParseAuthorThread(Thread):
 class ParseListThread(Thread):
 	def run(self):
 		while 1:
+			if self.list_queue.empty():
+				break
 			topic_url = list_queue.get()
 			print('开始爬取：{}'.format(topic_url))
 
