@@ -66,7 +66,7 @@ def get_all_url():
 class ParseTopicThread(Thread):
 	def run(self):
 		while 1:
-			if self.topic_queue.empty():
+			if self.topic_queue.empty() or self.list_queue.empty():
 				break
 			answer_url = topic_queue.get()
 			print('开始爬取topic:{}'.format(answer_url))
@@ -125,7 +125,7 @@ class ParseTopicThread(Thread):
 class ParseAuthorThread(Thread):
 	def run(self):
 		while 1:
-			if self.author_queue.empty():
+			if self.author_queue.empty() or self.list_queue.empty():
 				break
 			author_url = author_queue.get()
 			print('开始爬取用户信息：{}'.format(author_url))
